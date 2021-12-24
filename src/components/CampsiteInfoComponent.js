@@ -55,10 +55,11 @@ class CampsiteInfo extends Component {
     render() {
         if (this.props.campsite) {
             return (
-                //If so, then return an empty div that has the Bootstrap row class as an attribute.
-                <div className="row">
-                    {this.renderCampsite(this.props.campsite)}
-                    {this.renderComments(this.props.campsite.comments)}
+                <div className="container">
+                    <div className="row">
+                        {this.renderCampsite(this.props.campsite)}
+                        {this.renderComments(this.props.campsite.comments)}
+                    </div>
                 </div>
             )
         }
