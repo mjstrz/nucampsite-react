@@ -91,6 +91,8 @@ class CommentForm extends Component {
 
     handleSubmit(values) {
         this.toggleModal();
+        //Week 5 Redux ex. 3
+        this.props.addComment(this.props.campsiteId, values.rating, values.author, values.text);
         console.log('Current State is: ' + JSON.stringify(values));
         alert('Current State is ' + JSON.stringify(values));
     }
