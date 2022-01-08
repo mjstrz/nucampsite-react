@@ -1,16 +1,20 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { baseURL } from '../shared/baseURL';
+import { Loading } from './LoadingComponent';
+import NavItem from 'reactstrap/lib/NavItem';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 //TASK 2
 
 
 function RenderPartner({partner}){ 
-    console.log({partner}, "receiving")
+    // console.log({partner}, "receiving")
     if (partner){
         return(
         <React.Fragment>
-            <Media object src={partner.image} alt={partner.name} width="150" />
+            <Media object src={baseURL + partner.image} alt={partner.name} width="150" />
             <Media body className="ml-5 mb-4">
              <Media heading>
                    {partner.name}
@@ -29,14 +33,52 @@ function RenderPartner({partner}){
     
 }
 
+function PartnerList(props) {
+    
+    const partners = props.partners.partners.map(partner => {
+        // console.log(partners)  
+        return (
+            <Fade in key={partner.id}>
+                <Media tag="li" >
+                        <RenderPartner partner={partner} />
+                </Media>
+             </Fade>
+        );
+       
+    });
+     if (props.partners.isLoading) {
+        return (
+             <Loading />
+        );
+     }
+     if (props.partners.errMess) {
+         return (
+            <div className="row">
+                <div className="col">
+                    <h4>{props.partners.errMess}</h4>
+                </div>
+            </div>
+         )
+     }
+     return (
+         <div className="col mt-4">
+            <Stagger in>
+                <Media list>
+                    {partners}
+                </Media>
+            </Stagger>
+         </div>
+     )
+}
+
 
 function About(props) {
 
- console.log('About function is working')
+//  console.log('About function is working')
 
-    const partners = props.partners.map(partner => {
-        console.log({partner}, "sending")
-        console.log({props}, "props")
+    const partners = props.partners.partners.map(partner => {
+        // console.log({partner}, "sending")
+        // console.log({props}, "props")
         return (
             
         // TASK 3
@@ -98,11 +140,7 @@ function About(props) {
                 <div className="col-12">
                     <h3>Community Partners</h3>
                 </div>
-                <div className="col mt-4">
-                    <Media list>
-                        {partners}
-                    </Media>
-                </div>
+                <PartnerList partners={props.partners}/>
             </div>
         </div>
     );
